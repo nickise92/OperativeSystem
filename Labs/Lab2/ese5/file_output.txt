@@ -1,0 +1,8 @@
+totale 32
+drwxrwxr-x 4 nick nick 4096 apr  6 00:09 .
+drwxrwxr-x 8 nick nick 4096 apr  5 23:19 ..
+-rw------- 1 nick nick    0 apr  6 00:09 file_output.txt
+drwxrwxr-x 2 nick nick 4096 apr  5 23:19 inc
+-rw-rw-r-- 1 nick nick  339 apr  5 23:22 Makefile
+-rwxrwxr-x 1 nick nick 8760 apr  6 00:08 process_ese5
+drwxrwxr-x 2 nick nick 4096 apr  6 00:08 src
