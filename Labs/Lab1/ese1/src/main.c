@@ -28,7 +28,7 @@ int main(int argc, char *argv[]) {
             printf("File %s does not exist\n", argv[i]);
             continue;
         }
-    
+
         ssize_t bufReader = 0;
         do {
             // read the file in chunks

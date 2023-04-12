@@ -1,4 +1,4 @@
-NAME=mcat
+NAME=sr
 CFLAGS=-Wall -std=c99
 INCLUDES=-I./inc
 

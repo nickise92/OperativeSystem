@@ -1,4 +1,4 @@
-NAME=process_ese1
+NAME=mtac
 CFLAGS=-Wall -std=c99
 INCLUDES=-I./inc
 
