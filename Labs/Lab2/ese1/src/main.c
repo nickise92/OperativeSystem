@@ -7,60 +7,76 @@
  * USER e' l'username dell'utente.
  */
 
-/* Custom*/
 #include "errExit.h"
-/* Standard*/
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-/* Read/Write */
 #include <unistd.h>
-/* Open */
 #include <sys/stat.h>
 #include <fcntl.h>
 
 #define BUFFER_SZ 100
+
 int main(int argc, char *argv[]) {
 
     char *username = getenv("USER");
-    if (username == NULL) {
+    if (username == NULL)
+    {
         username = "unknown";
     }
 
     char *homeDir = getenv("HOME");
-    if (homeDir == NULL) {
+    if (homeDir == NULL)
+    {
         printf("Unknown home directory");
         exit(0);
     }
 
-      char buffer[BUFFER_SZ];
-    if (getcwd(buffer, sizeof(buffer)) == NULL) {
-        printf("getcwd failed\n");
-        exit(1);
+    char buffer[BUFFER_SZ];
+    if (getcwd(buffer, sizeof(buffer)) == NULL)
+    {
+        errExit("getcwd failed\n");
     }
 
     int subDir = strncmp(buffer, homeDir, strlen(homeDir));
-    
-    if (subDir == 0) {
-        printf("Caro %s, non sono al posto giusto!\n", username);
-    } else {
+
+    if (subDir == 0)
+    {
+        printf("Dear %s, I'm already in the right directory!\n", username);
+    }
+    else
+    {
         if (chdir(homeDir) == -1) {
-            printf("chdir failed\n");
-            exit(1);
+            //errExit("chdir failed");
+            perror("chdir");
+            return -1;
         }
+        // open the file
         int fd = open("empty_file.txt", O_CREAT | O_WRONLY | O_RDONLY | O_TRUNC, S_IRUSR | S_IWUSR);
-        if (fd == -1) {
-            printf("open failed\n");
-            exit(1);
+        if (fd == -1)
+        {
+            errExit("open failed");
         }
 
-        if (close(fd) == -1) {
-            printf("closed failed\n");
-            exit(1);
+        // Creating the message for write syscall
+        char messageBuffer[BUFFER_SZ] = "Dear ";
+        char *msgPtr;
+        msgPtr = strcat(messageBuffer, username);
+        msgPtr = strcat(messageBuffer, ", I'm in your home directory!");
+
+        if (0 > write(fd, messageBuffer, sizeof(messageBuffer)))
+        {
+            errExit("write failed");
         }
 
-        printf("Caro %s, sono dentro la tua home!\n", username);
-    }   
-    
+
+        // close file descriptor
+        if (close(fd) == -1){
+            errExit("close failed");
+        }
+
+    }
+
     return 0;
 }
